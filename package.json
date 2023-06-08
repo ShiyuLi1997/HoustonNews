@@ -1,5 +1,6 @@
 {
-	"name": "meinannews",
+	"homepage": "https://shiyuli1997.github.io/HoustonNews/",
+	"name": "HoustonNews",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
