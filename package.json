@@ -1,11 +1,10 @@
 {
 	"homepage": "https://shiyuli1997.github.io/HoustonNews/",
-	"name": "HoustonNews",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"start": "vite --port=8888",
+		"start": "vite --host",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d dist",
 		"build": "vite build",
