@@ -6,7 +6,8 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 import CustomInputLabel from "./components/CustomInputLabel.jsx";
-// import Login from "./components/Login.jsx";
+import Signon from "./components/Signon.jsx";
+import Login from "./components/Signin.jsx";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBBXO8uQeF08I6jyAMZaPMNyZz1fS42Srk",
@@ -19,53 +20,21 @@ const firebaseConfig = {
 };
 
 const App = (params) => {
-  // Initialize Firebase Authentication and get a reference to the service
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  // is User Signed In local state
+  const [isUserSignedIn, setIsUserSignedIn] = React.useState(false);
 
+  // Initialize Firebase Authentication and get a reference to the service
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   console.log({ auth, app });
 
-  const signon = (e) => {
-    e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log({ user, userCredential });
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode, errorMessage);
-        // ..
-      });
-  };
-
   return (
     <Grid className="root-container">
-      <CustomInputLabel
-        type="none"
-        label="Email"
-        smallMSG="We do not share your email address"
-        onInputChange={(change) => {
-          setEmail(change);
-        }}
-      />
-      <CustomInputLabel
-        type="none"
-        label="Password"
-        smallMSG="We got top of the bar security"
-        onInputChange={(change) => {
-          setPassword(change);
-        }}
-      />
-      <Typography variant="h6">Email Entered: {email}</Typography>
-      <Typography variant="h6">Password Entered: {password}</Typography>
-      <button onClick={signon}>Sign On</button>
-      {/* <Login /> */}
+      <Login setIsUserSignedIn={setIsUserSignedIn} auth={auth} />
+      <Typography variant="h4">
+        isUserSignedIn: {isUserSignedIn.toString()}
+      </Typography>
+      <Signon setIsUserSignedIn={setIsUserSignedIn} auth={auth} />
     </Grid>
   );
 };
