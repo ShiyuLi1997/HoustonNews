@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import { Grid, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Grid } from "@mui/material";
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
-import CustomInputLabel from "./components/CustomInputLabel.jsx";
 import Signon from "./components/Signon.jsx";
-import Login from "./components/Signin.jsx";
+import Login from "./components/Login.jsx";
+import SimpleYoutubeAPI from "./components/SimpleYoutubeAPI.jsx";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBBXO8uQeF08I6jyAMZaPMNyZz1fS42Srk",
@@ -19,22 +18,32 @@ const firebaseConfig = {
   measurementId: "G-6BZ4LSKZJE",
 };
 
+// Initialize Cloud Storage and get a reference to the service
+
 const App = (params) => {
-  // is User Signed In local state
-  const [isUserSignedIn, setIsUserSignedIn] = React.useState(false);
+  const [isUserSignedIn, setIsUserSignedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   // Initialize Firebase Authentication and get a reference to the service
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const storage = getStorage(app);
   console.log({ auth, app });
 
   return (
     <Grid className="root-container">
-      <Login setIsUserSignedIn={setIsUserSignedIn} auth={auth} />
-      <Typography variant="h4">
-        isUserSignedIn: {isUserSignedIn.toString()}
-      </Typography>
-      <Signon setIsUserSignedIn={setIsUserSignedIn} auth={auth} />
+      <Login
+        setIsUserSignedIn={setIsUserSignedIn}
+        setUser={setUser}
+        auth={auth}
+      />
+      <Signon
+        setIsUserSignedIn={setIsUserSignedIn}
+        setUser={setUser}
+        auth={auth}
+      />
+
+      <SimpleYoutubeAPI />
     </Grid>
   );
 };
