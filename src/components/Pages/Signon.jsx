@@ -1,25 +1,26 @@
 import React, { useState } from "react";
 import { Grid, Typography } from "@mui/material";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-import CustomInputLabel from "./CustomInputLabel.jsx";
-import "./styles.css";
+import CustomInputLabel from "../CustomInputLabel.jsx";
+import "../styles.css";
 
-const Signin = (props) => {
+const Signon = (props) => {
   // take setIsUserSignedIn from props
   const { setIsUserSignedIn, auth } = props;
 
+  // email and password are the states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignin = () => {
-    signInWithEmailAndPassword(auth, email, password)
+  // signon callback function
+  const signonCallback = (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
+        // Signed On
         const user = userCredential.user;
         console.log({ user, userCredential });
-        setIsUserSignedIn(true);
-        alert("User signed in!");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -27,10 +28,9 @@ const Signin = (props) => {
         alert(errorCode, errorMessage);
       });
   };
-
   return (
     <Grid className="signin-root-container">
-      <Typography variant="h6">Please Sign In to Continue...</Typography>
+      <Typography variant="h6">Please Sign On to Continue...</Typography>
       <br />
       <CustomInputLabel
         type="none"
@@ -48,7 +48,7 @@ const Signin = (props) => {
           setPassword(change);
         }}
       />
-      <button onClick={handleSignin}>Sign In</button>
+      <button onClick={signonCallback}>Sign On</button>
       <br />
       <br />
       <br />
@@ -58,4 +58,4 @@ const Signin = (props) => {
   );
 };
 
-export default Signin;
+export default Signon;
